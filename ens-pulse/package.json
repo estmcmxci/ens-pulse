@@ -1,0 +1,32 @@
+{
+  "name": "ens-pulse",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ENS Governance Intelligence Dashboard",
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "pnpm --filter @ens-pulse/indexer codegen",
+    "start": "pnpm --filter @ens-pulse/indexer start",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "dashboard": "pnpm --filter @ens-pulse/dashboard",
+    "indexer": "pnpm --filter @ens-pulse/indexer",
+    "clean": "turbo run clean && rm -rf node_modules"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "dotenv": "^17.2.3",
+    "eslint": "^8.56.0",
+    "prettier": "^3.2.0",
+    "tsx": "^4.21.0",
+    "turbo": "^2.3.0",
+    "typescript": "^5.7.0"
+  },
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "googleapis": "^144.0.0"
+  }
+}
