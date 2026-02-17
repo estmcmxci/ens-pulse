@@ -590,7 +590,7 @@ export function useNewsletter(limit = 10) {
 export interface TickerItem {
   id: string;
   headline: string;
-  source: "x" | "discourse" | "other";
+  source: "x" | "discourse" | "github" | "other";
   author: string;
   score: number;
   url: string;
