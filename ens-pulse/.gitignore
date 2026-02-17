@@ -56,4 +56,8 @@ calendar-integration-*.json
 # Font files (large binaries)
 Font/
 *.otf
+# Allow fonts needed for OG image generation
+!apps/dashboard/public/fonts/ABCMonumentGrotesk-Medium.otf
+!apps/dashboard/public/fonts/ABCMonumentGrotesk-Thin.otf
+!apps/dashboard/public/fonts/ABCMonumentGrotesk-Bold.otf
 .env*.local
