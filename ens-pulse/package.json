@@ -9,7 +9,7 @@
     "start": "pnpm --filter @ens-pulse/indexer start",
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
-    "dashboard": "pnpm --filter @ens-pulse/dashboard",
+    "dashboard": "pnpm --filter @ens-pulse/dashboard run dev",
     "indexer": "pnpm --filter @ens-pulse/indexer",
     "clean": "turbo run clean && rm -rf node_modules"
   },

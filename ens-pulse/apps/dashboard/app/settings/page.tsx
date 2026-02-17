@@ -18,10 +18,10 @@ export default function SettingsPage() {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between animate-in stagger-1">
         <div>
-          <h1 className="text-2xl font-bold">Settings</h1>
-          <p className="text-muted-foreground mt-1">
+          <h1 className="text-3xl font-700 tracking-tight text-[var(--color-text-primary)]">Settings</h1>
+          <p className="label mt-2">
             Configure ENS Pulse dashboard settings
           </p>
         </div>
@@ -191,7 +191,7 @@ export default function SettingsPage() {
           </p>
           <div className="mt-4 flex items-center gap-4 text-sm text-muted-foreground">
             <span>Version 0.1.0</span>
-            <a href="https://github.com/your-org/ens-pulse" className="text-ens-blue hover:underline">
+            <a href="https://github.com/estmcmxci/ens-pulse" className="text-ens-blue hover:underline">
               GitHub
             </a>
             <a href="https://docs.ens.domains" className="text-ens-blue hover:underline">

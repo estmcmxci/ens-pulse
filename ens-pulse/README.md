@@ -1,6 +1,6 @@
 # ENS Pulse
 
-> **ENS Governance Intelligence Dashboard** - A comprehensive dashboard for monitoring ENS DAO governance, treasury, delegates, and protocol health.
+> **ENS DAO Monitor** — Real-time governance intelligence dashboard for the Ethereum Name Service DAO.
 
 [![Next.js](https://img.shields.io/badge/Next.js-15.1-black)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19-blue)](https://react.dev/)
@@ -9,48 +9,41 @@
 
 ## Overview
 
-ENS Pulse is a real-time dashboard that aggregates and visualizes critical data about the Ethereum Name Service (ENS) DAO. It provides insights into governance proposals, treasury management, delegate activity, protocol metrics, and external context signals.
+ENS Pulse aggregates and visualizes critical data about the ENS DAO in real time. The homepage is a single-page command monitor with 14+ widgets that stream data independently via SWR, with a full-viewport hero overlay on first visit.
 
-### Key Features
+### Features
 
-- 📊 **Live Dashboard** - Real-time monitoring with 14+ widgets covering market data, governance, treasury, and protocol health
-- 🗳️ **Governance Tracking** - Active proposals, voting status, and delegate performance
-- 💰 **Treasury Management** - Multisig wallet balances, pending transactions, and asset composition
-- 👥 **Delegate Analytics** - Leaderboard, voting power distribution, and delegate highlights
-- 📰 **Context Feeds** - Discourse discussions, social media signals, and newsletter archive
-- 📅 **Calendar Integration** - Upcoming ENS DAO meetings and working group events
-- 📈 **Historical Analysis** - Protocol metrics over time and historical context
-- ⚙️ **Customizable Layout** - Drag-and-drop widget configuration
+- **Live Dashboard** — Price tickers (ETH/ENS), total treasury assets, active proposals, top delegates, attack profitability analysis, protocol metrics, treasury breakdown, calendar, forum feed, social feed, and a floating signals ticker
+- **Governance** — Active proposals, voting status, and delegate performance via Tally
+- **Treasury** — Multisig wallet balances, pending transactions, and asset composition via Safe
+- **Delegate Analytics** — Leaderboard with voting power distribution
+- **Context Feeds** — Discourse discussions, X/Twitter signals, and newsletter archive
+- **Calendar** — Upcoming ENS DAO meetings and working group events
+- **Historical Analysis** — Protocol metrics over time
+- **Hero Overlay** — Session-gated cinematic entry with radial clip-path reveal
 
 ## Architecture
 
-This is a **monorepo** built with:
+Monorepo with Turborepo:
 
-- **Dashboard** (`apps/dashboard`) - Next.js 15 web application
-- **Indexer** (`apps/indexer`) - Ponder-based blockchain event indexer
-- **Shared** (`packages/shared`) - Shared TypeScript types and utilities
+- **Dashboard** (`apps/dashboard`) — Next.js 15 web application
+- **Indexer** (`apps/indexer`) — Ponder-based blockchain event indexer
+- **Shared** (`packages/shared`) — Shared TypeScript types and utilities
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    Next.js Dashboard                        │
-│  (React 19, TypeScript, Tailwind CSS, SWR)                │
-└───────────────────────────┬─────────────────────────────────┘
-                            │
-┌───────────────────────────▼─────────────────────────────────┐
-│                    API Routes Layer                         │
-│  /api/governance | /api/treasury | /api/context | etc.     │
-└───────────────────────────┬─────────────────────────────────┘
-                            │
-┌───────────────────────────▼─────────────────────────────────┐
-│                  Client Libraries                           │
-│  Tally | Safe | Dune | Discourse | Twitter | Calendar      │
-└───────────────────────────┬─────────────────────────────────┘
-                            │
-┌───────────────────────────▼─────────────────────────────────┐
-│              External APIs & Blockchain                      │
-│  Tally.xyz | Dune Analytics | Ethereum | Google Calendar   │
-└─────────────────────────────────────────────────────────────┘
+Next.js Dashboard (React 19, Tailwind CSS 4, SWR)
+        │
+        ▼
+API Routes (/api/dashboard, /api/dune, /api/signals, etc.)
+        │
+        ▼
+Client Libraries (Tally, Safe, Dune, Discourse, CoinGecko, Calendar)
+        │
+        ▼
+External APIs & Blockchain (Tally.xyz, Dune Analytics, Ethereum, Google Calendar)
 ```
+
+The dashboard homepage (`WorldMonitorClient`) uses dynamic imports and code splitting — each widget loads and fetches data independently, so the UI renders instantly with skeletons while data streams in.
 
 ## Quick Start
 
@@ -58,25 +51,17 @@ This is a **monorepo** built with:
 
 - Node.js >= 20.0.0
 - pnpm >= 9.15.0
-- PostgreSQL (optional, for caching)
 
 ### Installation
 
 ```bash
-# Clone the repository
 git clone https://github.com/estmcmxci/ens-pulse.git
 cd ens-pulse
-
-# Install dependencies
 pnpm install
-
-# Copy environment variables
 cp .env.example .env
 ```
 
 ### Environment Variables
-
-Create a `.env` file in the root directory:
 
 ```env
 # Governance
@@ -87,50 +72,39 @@ DUNE_API_KEY=               # Required: Dune Analytics API key
 
 # Blockchain
 NEXT_PUBLIC_ALCHEMY_URL=    # Required: Ethereum RPC endpoint
-ALCHEMY_API_KEY=            # Optional: For indexer
-ETHERSCAN_API_KEY=          # Optional: Gas price oracle
 
 # Market Data
 COINGECKO_API_KEY=          # Optional: Higher rate limits
 
-# Feeds (Optional)
-TWITTER_BEARER_TOKEN=       # Social feed
-ANTHROPIC_API_KEY=          # AI summaries for feeds
-DISCOURSE_API_KEY=          # Higher rate limits for Discourse
+# Feeds
+TWITTER_BEARER_TOKEN=       # Optional: Social feed
+ANTHROPIC_API_KEY=          # Optional: AI summaries
+DISCOURSE_API_KEY=          # Optional: Higher rate limits for Discourse
 
-# Calendar (Optional)
-GOOGLE_SERVICE_ACCOUNT_EMAIL=
-GOOGLE_PRIVATE_KEY=
+# Calendar
+GOOGLE_SERVICE_ACCOUNT_EMAIL=  # Optional
+GOOGLE_PRIVATE_KEY=            # Optional
 
-# Database (Optional)
-DATABASE_URL=               # PostgreSQL connection string
-
-# Safe (Optional)
-SAFE_API_KEY=               # Safe multisig API
+# Safe
+SAFE_API_KEY=               # Optional: Safe multisig API
 ```
 
 ### Development
 
 ```bash
 # Start the dashboard
-pnpm dev
+pnpm dashboard
 
-# Or run specific apps
-pnpm dashboard dev          # Dashboard only
-pnpm indexer dev            # Indexer only
+# Or run all apps
+pnpm dev
 ```
 
-The dashboard will be available at `http://localhost:3000`
+Dashboard runs at `http://localhost:3000`.
 
 ### Build
 
 ```bash
-# Build all apps
 pnpm build
-
-# Build dashboard for production
-pnpm dashboard build
-pnpm dashboard start
 ```
 
 ## Project Structure
@@ -138,80 +112,86 @@ pnpm dashboard start
 ```
 ens-pulse/
 ├── apps/
-│   ├── dashboard/          # Next.js dashboard application
-│   │   ├── app/            # Next.js app router pages & API routes
-│   │   ├── features/       # Feature-specific components
-│   │   └── shared/        # Shared components, hooks, libs
-│   └── indexer/           # Ponder blockchain indexer
-├── packages/
-│   └── shared/            # Shared TypeScript types
-└── scripts/               # Utility scripts
+│   ├── dashboard/
+│   │   ├── app/                    # Next.js app router
+│   │   │   ├── api/                # API routes (dashboard, dune, signals)
+│   │   │   ├── WorldMonitorClient  # Homepage widget grid
+│   │   │   └── [pages]/            # governance, treasury, delegates, etc.
+│   │   ├── features/
+│   │   │   ├── dashboard/          # Homepage widgets (14+)
+│   │   │   ├── governance/         # Governance components
+│   │   │   ├── treasury/           # Treasury components
+│   │   │   ├── delegates/          # Delegate components
+│   │   │   ├── external-context/   # Meetings, feeds
+│   │   │   ├── newsletter/         # Newsletter archive
+│   │   │   └── historical-context/ # Historical metrics
+│   │   └── shared/
+│   │       ├── components/         # Navbar, Widget, Card, Badge
+│   │       ├── hooks/              # SWR data hooks
+│   │       ├── lib/                # API clients, formatters, data utils
+│   │       ├── config/             # Dune queries, multisig addresses
+│   │       └── types/              # TypeScript types
+│   └── indexer/                    # Ponder blockchain indexer
+└── packages/
+    └── shared/                     # Shared types and utilities
 ```
 
-## Pages & Routes
+## Routes
 
 | Route | Description |
 |-------|-------------|
-| `/` | Main dashboard with live widgets |
+| `/` | Live dashboard with hero overlay and widget grid |
 | `/governance` | Proposals, voting, and governance stats |
 | `/treasury` | Multisig wallets and treasury overview |
 | `/delegates` | Delegate leaderboard and analytics |
 | `/context` | External signals and upcoming meetings |
 | `/newsletter` | Newsletter archive search |
 | `/historical` | Historical protocol metrics |
-| `/custom` | Customizable widget layout |
 | `/settings` | User preferences |
+
+## Dashboard Widgets
+
+The homepage renders these widgets with independent data fetching:
+
+| Widget | Data Source |
+|--------|------------|
+| ETH/ENS Price | CoinGecko |
+| Total Assets | Safe + CoinGecko |
+| Active Proposals | Tally |
+| Top Delegates | Tally |
+| Attack Profitability | Tally + CoinGecko |
+| Protocol Metrics (ENS Stats) | Dune Analytics |
+| Protocol Metrics (Financials) | Dune Analytics |
+| Treasury | Safe |
+| Calendar | Google Calendar |
+| Forum Feed | Discourse |
+| Social Feed | X/Twitter |
+| Signals Ticker | Editorial pipeline |
 
 ## Data Sources
 
-- **Tally.xyz** - Governance proposals and delegate data
-- **Dune Analytics** - Protocol metrics and financial data
-- **Safe** - Multisig wallet balances and transactions
-- **CoinGecko** - Token prices and market data
-- **Etherscan** - Gas prices and blockchain data
-- **Discourse** - Community discussions
-- **Twitter/X** - Social signals
-- **Google Calendar** - ENS DAO meetings
+- **Tally.xyz** — Governance proposals, delegates, voting power
+- **Dune Analytics** — Protocol metrics, financials, ENS stats
+- **Safe** — Multisig wallet balances and transactions
+- **CoinGecko** — Token prices and market data
+- **Discourse** — ENS Forum discussions
+- **X/Twitter** — Social signals
+- **Google Calendar** — ENS DAO meetings
 
 ## Tech Stack
 
 - **Framework:** Next.js 15 (App Router)
-- **UI:** React 19, Tailwind CSS 4, Radix UI
-- **State:** SWR, Zustand
-- **Blockchain:** Viem, Wagmi
+- **UI:** React 19, Tailwind CSS 4
+- **Data Fetching:** SWR (client-side, parallel, cached)
+- **Blockchain:** Viem
 - **Indexing:** Ponder
 - **Monorepo:** Turborepo, pnpm workspaces
-- **Type Safety:** TypeScript 5.7
-
-## Development Workflow
-
-```bash
-# Type checking
-pnpm typecheck
-
-# Linting
-pnpm lint
-
-# Clean build artifacts
-pnpm clean
-```
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+- **TypeScript:** 5.7
 
 ## License
 
 This project is private and proprietary.
 
-## Acknowledgments
-
-Built for the ENS DAO community to improve governance transparency and decision-making.
-
 ---
 
-**Note:** This dashboard requires API keys for various services. See `.env.example` for required configuration.
+Built for the ENS DAO community to improve governance transparency and decision-making.

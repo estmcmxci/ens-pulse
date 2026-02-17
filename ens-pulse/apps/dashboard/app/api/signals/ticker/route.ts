@@ -27,7 +27,7 @@ interface Signal {
 interface TickerItem {
   id: string;
   headline: string;
-  source: "x" | "discourse" | "other";
+  source: "x" | "discourse" | "github" | "other";
   author: string;
   score: number;
   url: string;
@@ -50,15 +50,18 @@ export async function GET() {
     // Transform to ticker format
     const tickerItems: TickerItem[] = sorted.map((signal) => ({
       id: signal.content_id,
-      headline:
+      headline: (
         signal.draft?.variants?.five_bullet_line ||
         signal.draft?.headline ||
-        signal.title.slice(0, 100),
+        signal.title.slice(0, 100)
+      ).replace(/^- /, ""),
       source:
         signal.source_type === "x"
           ? "x"
           : signal.source_type === "discourse"
           ? "discourse"
+          : signal.source_type === "github"
+          ? "github"
           : "other",
       author: signal.author,
       score: Math.round((signal.score?.total || 0) * 100),

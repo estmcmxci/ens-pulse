@@ -33,8 +33,9 @@ export const Widget = forwardRef<HTMLDivElement, WidgetProps>(
       <div
         ref={ref}
         className={cn(
-          "bg-[var(--color-bg-raised)] border border-[var(--color-border-subtle)]",
+          "bg-[var(--color-bg-raised)] border border-[var(--color-border-default)]",
           "rounded-lg overflow-hidden flex flex-col",
+          "card-depth",
           colSpanStyles[colSpan],
           rowSpanStyles[rowSpan],
           className
@@ -60,8 +61,9 @@ export function WidgetHeader({ children, className, ...props }: WidgetHeaderProp
   return (
     <div
       className={cn(
-        "px-4 py-3 border-b border-[var(--color-border-subtle)]",
+        "px-4 py-3 border-b border-[var(--color-border-default)]",
         "flex items-center justify-between",
+        "widget-header-accent",
         className
       )}
       {...props}
@@ -84,8 +86,7 @@ export function WidgetTitle({ children, className, icon, ...props }: WidgetTitle
   return (
     <span
       className={cn(
-        "text-[11px] font-medium tracking-[0.05em] uppercase",
-        "text-[var(--color-text-tertiary)] flex items-center gap-2",
+        "widget-title flex items-center gap-2",
         className
       )}
       {...props}

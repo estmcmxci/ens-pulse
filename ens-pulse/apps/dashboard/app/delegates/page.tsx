@@ -103,25 +103,26 @@ export default function DelegatesPage() {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div>
-        <h1 className="text-2xl font-bold">Delegates</h1>
-        <p className="text-muted-foreground mt-1">
+      <div className="animate-in stagger-1">
+        <h1 className="text-3xl font-700 tracking-tight text-[var(--color-text-primary)]">Delegates</h1>
+        <p className="label mt-2">
           Explore and discover ENS delegates by voting power
         </p>
+        <div className="divider-ens mt-4" />
       </div>
 
       {/* Stats Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 animate-in stagger-2">
         <Card className="p-4">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-lg bg-ens-blue/10">
               <Users className="h-5 w-5 text-ens-blue" />
             </div>
             <div>
-              <p className="text-2xl font-bold">
+              <p className="text-2xl data-value text-[var(--color-text-primary)]">
                 {data ? formatNumber(data.data.totalDelegates) : "..."}
               </p>
-              <p className="text-xs text-muted-foreground">Total Delegates</p>
+              <p className="label mt-0.5">Total Delegates</p>
             </div>
           </div>
         </Card>
@@ -131,10 +132,10 @@ export default function DelegatesPage() {
               <TrendingUp className="h-5 w-5 text-ens-purple" />
             </div>
             <div>
-              <p className="text-2xl font-bold">
+              <p className="text-2xl data-value text-[var(--color-text-primary)]">
                 {data ? formatNumber(parseFloat(data.data.totalSupplyFormatted) / 1e6) + "M" : "..."}
               </p>
-              <p className="text-xs text-muted-foreground">Total Supply</p>
+              <p className="label mt-0.5">Total Supply</p>
             </div>
           </div>
         </Card>
@@ -144,8 +145,8 @@ export default function DelegatesPage() {
               <Vote className="h-5 w-5 text-success" />
             </div>
             <div>
-              <p className="text-2xl font-bold">78%</p>
-              <p className="text-xs text-muted-foreground">Delegated</p>
+              <p className="text-2xl data-value text-[var(--color-text-primary)]">78%</p>
+              <p className="label mt-0.5">Delegated</p>
             </div>
           </div>
         </Card>
@@ -155,8 +156,8 @@ export default function DelegatesPage() {
               <Users className="h-5 w-5 text-warning" />
             </div>
             <div>
-              <p className="text-2xl font-bold">47%</p>
-              <p className="text-xs text-muted-foreground">Top 10 Control</p>
+              <p className="text-2xl data-value text-[var(--color-text-primary)]">47%</p>
+              <p className="label mt-0.5">Top 10 Control</p>
             </div>
           </div>
         </Card>

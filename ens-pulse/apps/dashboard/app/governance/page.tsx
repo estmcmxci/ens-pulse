@@ -9,11 +9,12 @@ export default function GovernancePage() {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div>
-        <h1 className="text-2xl font-bold">Governance</h1>
-        <p className="text-muted-foreground mt-1">
+      <div className="animate-in stagger-1">
+        <h1 className="text-3xl font-700 tracking-tight text-[var(--color-text-primary)]">Governance</h1>
+        <p className="label mt-2">
           Active proposals, voting analytics, and governance participation
         </p>
+        <div className="divider-ens mt-4" />
       </div>
 
       {/* Stats Overview - Now using real data */}

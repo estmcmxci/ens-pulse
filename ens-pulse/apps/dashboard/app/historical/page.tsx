@@ -7,23 +7,24 @@ export default function HistoricalPage() {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div>
-        <h1 className="text-2xl font-bold">Historical Context</h1>
-        <p className="text-muted-foreground mt-1">
+      <div className="animate-in stagger-1">
+        <h1 className="text-3xl font-700 tracking-tight text-[var(--color-text-primary)]">Historical Context</h1>
+        <p className="label mt-2">
           Understand how conditions have changed since proposals were created
         </p>
+        <div className="divider-ens mt-4" />
       </div>
 
       {/* Stats Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 animate-in stagger-2">
         <Card className="p-4">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-lg bg-ens-blue/10">
               <History className="h-5 w-5 text-ens-blue" />
             </div>
             <div>
-              <p className="text-2xl font-bold">156</p>
-              <p className="text-xs text-muted-foreground">Proposals Tracked</p>
+              <p className="text-2xl data-value text-[var(--color-text-primary)]">156</p>
+              <p className="label mt-0.5">Proposals Tracked</p>
             </div>
           </div>
         </Card>
@@ -33,8 +34,8 @@ export default function HistoricalPage() {
               <Database className="h-5 w-5 text-ens-purple" />
             </div>
             <div>
-              <p className="text-2xl font-bold">1,240</p>
-              <p className="text-xs text-muted-foreground">Snapshots</p>
+              <p className="text-2xl data-value text-[var(--color-text-primary)]">1,240</p>
+              <p className="label mt-0.5">Snapshots</p>
             </div>
           </div>
         </Card>
@@ -44,8 +45,8 @@ export default function HistoricalPage() {
               <TrendingUp className="h-5 w-5 text-success" />
             </div>
             <div>
-              <p className="text-2xl font-bold">+28%</p>
-              <p className="text-xs text-muted-foreground">ETH Since Start</p>
+              <p className="text-2xl data-value text-[var(--color-positive)]">+28%</p>
+              <p className="label mt-0.5">ETH Since Start</p>
             </div>
           </div>
         </Card>
@@ -55,8 +56,8 @@ export default function HistoricalPage() {
               <Calendar className="h-5 w-5 text-warning" />
             </div>
             <div>
-              <p className="text-2xl font-bold">2+ Years</p>
-              <p className="text-xs text-muted-foreground">Of Data</p>
+              <p className="text-2xl data-value text-[var(--color-text-primary)]">2+ Years</p>
+              <p className="label mt-0.5">Of Data</p>
             </div>
           </div>
         </Card>

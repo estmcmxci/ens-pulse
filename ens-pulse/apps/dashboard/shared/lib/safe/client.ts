@@ -57,7 +57,7 @@ const viemClient = createPublicClient({
     multicall: true,
   },
   chain: mainnet,
-  transport: http(process.env.NEXT_PUBLIC_ALCHEMY_URL || undefined),
+  transport: http(process.env.NEXT_PUBLIC_ALCHEMY_URL || "https://eth.drpc.org"),
 });
 
 export interface SafeBalance {

@@ -81,23 +81,24 @@ export default function TreasuryPage() {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div>
-        <h1 className="text-2xl font-bold">Treasury</h1>
-        <p className="text-muted-foreground mt-1">
+      <div className="animate-in stagger-1">
+        <h1 className="text-3xl font-700 tracking-tight text-[var(--color-text-primary)]">Treasury</h1>
+        <p className="label mt-2">
           Real-time monitoring of ENS DAO multisig wallets
         </p>
+        <div className="divider-ens mt-4" />
       </div>
 
       {/* Stats Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 animate-in stagger-2">
         <Card className="p-4">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-lg bg-ens-blue/10">
               <Wallet className="h-5 w-5 text-ens-blue" />
             </div>
             <div>
-              <p className="text-2xl font-bold">$52M</p>
-              <p className="text-xs text-muted-foreground">Total Value</p>
+              <p className="text-2xl data-value text-[var(--color-text-primary)]">$52M</p>
+              <p className="label mt-0.5">Total Value</p>
             </div>
           </div>
         </Card>
@@ -107,8 +108,8 @@ export default function TreasuryPage() {
               <TrendingUp className="h-5 w-5 text-success" />
             </div>
             <div>
-              <p className="text-2xl font-bold">+15.3%</p>
-              <p className="text-xs text-muted-foreground">30d Change</p>
+              <p className="text-2xl data-value text-[var(--color-positive)]">+15.3%</p>
+              <p className="label mt-0.5">30d Change</p>
             </div>
           </div>
         </Card>
@@ -118,10 +119,10 @@ export default function TreasuryPage() {
               <AlertTriangle className="h-5 w-5 text-warning" />
             </div>
             <div>
-              <p className="text-2xl font-bold">
+              <p className="text-2xl data-value text-[var(--color-text-primary)]">
                 {pendingData?.data.totalCount ?? "..."}
               </p>
-              <p className="text-xs text-muted-foreground">Pending Txs</p>
+              <p className="label mt-0.5">Pending Txs</p>
             </div>
           </div>
         </Card>
@@ -131,8 +132,8 @@ export default function TreasuryPage() {
               <Clock className="h-5 w-5 text-ens-purple" />
             </div>
             <div>
-              <p className="text-2xl font-bold">9</p>
-              <p className="text-xs text-muted-foreground">Multisigs</p>
+              <p className="text-2xl data-value text-[var(--color-text-primary)]">9</p>
+              <p className="label mt-0.5">Multisigs</p>
             </div>
           </div>
         </Card>

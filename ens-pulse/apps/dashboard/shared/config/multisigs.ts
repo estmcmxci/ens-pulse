@@ -76,6 +76,7 @@ export const MULTISIG_INFO: MultisigInfo[] = [
     workingGroup: "Endowment",
     description: "Endowment invests DAO funds",
     isMultisig: false,
+    isPrimary: true,
   },
 
   // Ecosystem Working Group

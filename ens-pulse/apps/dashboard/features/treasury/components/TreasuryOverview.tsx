@@ -15,8 +15,11 @@ interface MultisigData {
     ensBalance: string;
     usdcBalance: string;
   };
-  pendingTransactions: unknown[];
-  info: {
+  pendingTransactions?: unknown[];
+  threshold?: number;
+  owners?: string[];
+  ownerCount?: number;
+  info?: {
     threshold: number;
     owners: string[];
   };
@@ -30,7 +33,7 @@ interface TreasuryResponse {
       ethBalance: string;
       ensBalance: string;
       usdcBalance: string;
-      pendingTransactions: number;
+      pendingTransactions?: number;
       multisigCount: number;
     };
     lastUpdated: string;
@@ -46,7 +49,7 @@ async function fetchTreasury(): Promise<TreasuryResponse> {
 function MultisigCard({ multisig }: { multisig: MultisigData }) {
   const ethBalance = Number(BigInt(multisig.calculatedBalances.ethBalance)) / 1e18;
   const ensBalance = Number(BigInt(multisig.calculatedBalances.ensBalance)) / 1e18;
-  const hasPending = multisig.pendingTransactions.length > 0;
+  const hasPending = (multisig.pendingTransactions?.length ?? 0) > 0;
 
   return (
     <div className="p-3 rounded-lg bg-muted/50 border border-border">
@@ -55,7 +58,7 @@ function MultisigCard({ multisig }: { multisig: MultisigData }) {
           <span className="font-medium text-sm">{multisig.name}</span>
           {hasPending && (
             <Badge variant="warning" className="text-xs">
-              {multisig.pendingTransactions.length} pending
+              {multisig.pendingTransactions!.length} pending
             </Badge>
           )}
         </div>
@@ -71,7 +74,11 @@ function MultisigCard({ multisig }: { multisig: MultisigData }) {
       <div className="flex gap-4 text-xs text-muted-foreground">
         <span>{formatNumber(ethBalance)} ETH</span>
         <span>{formatNumber(ensBalance)} ENS</span>
-        <span className="ml-auto">{multisig.info.threshold}/{multisig.info.owners.length} sig</span>
+        {(multisig.threshold || multisig.info?.threshold) && (
+          <span className="ml-auto">
+            {multisig.threshold ?? multisig.info?.threshold}/{multisig.ownerCount ?? multisig.owners?.length ?? multisig.info?.owners?.length ?? "?"} sig
+          </span>
+        )}
       </div>
     </div>
   );
@@ -101,7 +108,7 @@ export function TreasuryOverview() {
           <Wallet className="h-5 w-5 text-ens-purple" />
           <CardTitle>Treasury</CardTitle>
         </div>
-        {data && data.data.totals.pendingTransactions > 0 && (
+        {data && (data.data.totals.pendingTransactions ?? 0) > 0 && (
           <Badge variant="warning">
             <AlertTriangle className="h-3 w-3 mr-1" />
             {data.data.totals.pendingTransactions} Pending

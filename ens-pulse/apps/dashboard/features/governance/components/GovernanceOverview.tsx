@@ -79,8 +79,8 @@ function ProposalCard({ proposal }: { proposal: Proposal }) {
       <div className="flex items-start justify-between mb-2">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs text-muted-foreground">
-              EP {proposal.onchainId}
+            <span className="text-xs text-muted-foreground font-mono truncate max-w-[200px]" title={`EP ${proposal.onchainId}`}>
+              EP {proposal.onchainId.length > 10 ? `${proposal.onchainId.slice(0, 6)}...${proposal.onchainId.slice(-4)}` : proposal.onchainId}
             </span>
             <Badge variant={PROPOSAL_STATUS_COLORS[proposal.status] as "success" | "warning" | "danger" | "info"}>
               {proposal.status}

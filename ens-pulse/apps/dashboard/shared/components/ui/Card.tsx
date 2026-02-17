@@ -14,11 +14,11 @@ interface CardProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const variantStyles: Record<CardVariant, string> = {
-  default: "bg-[var(--color-bg-raised)] border-[var(--color-border-subtle)]",
-  elevated: "bg-[var(--color-bg-elevated)] border-[var(--color-border-default)]",
+  default: "bg-[var(--color-bg-raised)] border-[var(--color-border-subtle)] card-depth",
+  elevated: "bg-[var(--color-bg-elevated)] border-[var(--color-border-default)] card-depth",
   interactive: [
     "bg-[var(--color-bg-raised)] border-[var(--color-border-subtle)]",
-    "cursor-pointer transition-all duration-[var(--transition-fast)]",
+    "cursor-pointer card-depth",
     "hover:bg-[var(--color-bg-elevated)] hover:border-[var(--color-border-default)]",
   ].join(" "),
   empty: [
@@ -30,7 +30,7 @@ const variantStyles: Record<CardVariant, string> = {
   highlight: [
     "bg-[var(--color-bg-raised)] border-transparent",
     "bg-gradient-to-r from-[var(--color-ens-blue)]/10 to-[var(--color-ens-purple)]/10",
-    "ring-1 ring-[var(--color-ens-blue)]/20",
+    "ring-1 ring-[var(--color-ens-blue)]/20 card-depth-hero",
   ].join(" "),
 };
 
@@ -133,11 +133,7 @@ interface CardLabelProps extends HTMLAttributes<HTMLSpanElement> {
 export function CardLabel({ children, className, ...props }: CardLabelProps) {
   return (
     <span
-      className={cn(
-        "text-[11px] font-medium tracking-[0.05em] uppercase",
-        "text-[var(--color-text-tertiary)]",
-        className
-      )}
+      className={cn("label", className)}
       {...props}
     >
       {children}
@@ -216,8 +212,8 @@ interface CardValueProps extends HTMLAttributes<HTMLDivElement> {
 
 const valueSizeStyles = {
   sm: "text-lg font-medium",
-  md: "text-2xl font-semibold",
-  lg: "text-3xl font-bold",
+  md: "text-2xl data-value",
+  lg: "text-3xl hero-value",
 };
 
 const trendColorStyles = {

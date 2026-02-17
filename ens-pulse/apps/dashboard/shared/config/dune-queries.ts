@@ -82,6 +82,11 @@ export const DUNE_QUERIES = {
   // ENS price history: period, ENS Price (366 rows)
   ENS_PRICE_HISTORY: 3690384,
 
+  // === Custom ENS Pulse Consolidated Queries ===
+  // These replace 12 separate 3rd-party queries with 2 custom ones
+  PULSE_PROTOCOL_STATS: 6703132,
+  PULSE_REVENUE_STATS: 6703138,
+
   // Legacy aliases for backwards compatibility
   ENS_REGISTRATIONS: 5768,
   DOMAIN_STATISTICS: 5676,

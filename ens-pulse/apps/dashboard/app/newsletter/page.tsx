@@ -7,23 +7,24 @@ export default function NewsletterPage() {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div>
-        <h1 className="text-2xl font-bold">Newsletter Archive</h1>
-        <p className="text-muted-foreground mt-1">
+      <div className="animate-in stagger-1">
+        <h1 className="text-3xl font-700 tracking-tight text-[var(--color-text-primary)]">Newsletter Archive</h1>
+        <p className="label mt-2">
           Full-text search across 90+ ENS DAO newsletters
         </p>
+        <div className="divider-ens mt-4" />
       </div>
 
       {/* Stats Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 animate-in stagger-2">
         <Card className="p-4">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-lg bg-ens-blue/10">
               <Newspaper className="h-5 w-5 text-ens-blue" />
             </div>
             <div>
-              <p className="text-2xl font-bold">90+</p>
-              <p className="text-xs text-muted-foreground">Newsletters</p>
+              <p className="text-2xl data-value text-[var(--color-text-primary)]">90+</p>
+              <p className="label mt-0.5">Newsletters</p>
             </div>
           </div>
         </Card>
@@ -33,8 +34,8 @@ export default function NewsletterPage() {
               <Archive className="h-5 w-5 text-ens-purple" />
             </div>
             <div>
-              <p className="text-2xl font-bold">2+ Years</p>
-              <p className="text-xs text-muted-foreground">Of Coverage</p>
+              <p className="text-2xl data-value text-[var(--color-text-primary)]">2+ Years</p>
+              <p className="label mt-0.5">Of Coverage</p>
             </div>
           </div>
         </Card>
@@ -44,8 +45,8 @@ export default function NewsletterPage() {
               <Search className="h-5 w-5 text-success" />
             </div>
             <div>
-              <p className="text-2xl font-bold">Full-Text</p>
-              <p className="text-xs text-muted-foreground">Search</p>
+              <p className="text-2xl data-value text-[var(--color-text-primary)]">Full-Text</p>
+              <p className="label mt-0.5">Search</p>
             </div>
           </div>
         </Card>
@@ -55,8 +56,8 @@ export default function NewsletterPage() {
               <Calendar className="h-5 w-5 text-warning" />
             </div>
             <div>
-              <p className="text-2xl font-bold">Weekly</p>
-              <p className="text-xs text-muted-foreground">Updates</p>
+              <p className="text-2xl data-value text-[var(--color-text-primary)]">Weekly</p>
+              <p className="label mt-0.5">Updates</p>
             </div>
           </div>
         </Card>

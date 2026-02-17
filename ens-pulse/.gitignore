@@ -56,3 +56,4 @@ calendar-integration-*.json
 # Font files (large binaries)
 Font/
 *.otf
+.env*.local

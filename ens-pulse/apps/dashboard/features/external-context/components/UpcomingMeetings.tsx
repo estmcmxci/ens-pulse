@@ -115,13 +115,13 @@ export function UpcomingMeetings() {
           </div>
         )}
 
-        {data && data.data.events.length === 0 && (
+        {data && (!data.data?.events || data.data.events.length === 0) && (
           <div className="text-center py-4 text-muted-foreground text-sm">
             No upcoming meetings
           </div>
         )}
 
-        {data && data.data.events.length > 0 && (
+        {data && data.data?.events?.length > 0 && (
           <div className="space-y-2">
             {data.data.events.map((event) => (
               <MeetingCard key={event.id} event={event} />

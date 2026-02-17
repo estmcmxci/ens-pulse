@@ -56,9 +56,10 @@ export function Badge({
     <span className={cn(badgeVariants({ variant, size }), className)} {...props}>
       {dot && (
         <span
-          className="w-1.5 h-1.5 rounded-full mr-1.5"
+          className="w-1.5 h-1.5 rounded-full mr-1.5 pulse-live"
           style={{
             backgroundColor: dotColor || "currentColor",
+            boxShadow: `0 0 6px ${dotColor || "currentColor"}`,
           }}
         />
       )}
