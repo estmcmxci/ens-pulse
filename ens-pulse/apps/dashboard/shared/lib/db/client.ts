@@ -1,6 +1,6 @@
 import postgres from "postgres";
 
-const connectionString = process.env.DATABASE_URL;
+const connectionString = process.env.DATABASE_URL?.trim();
 
 if (!connectionString) {
   console.warn("DATABASE_URL not set - database features will be disabled");
