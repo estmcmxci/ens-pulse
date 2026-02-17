@@ -20,7 +20,7 @@ function getValueFromRow(row: Record<string, unknown>, ...keys: string[]): numbe
   return null;
 }
 
-export const revalidate = 3600; // 1 hour cache
+export const dynamic = "force-dynamic"; // Always fetch fresh — avoid baking stale/failed data at build time
 
 interface MetricWithDelta {
   value: number | null;
