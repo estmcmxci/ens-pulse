@@ -1,11 +1,12 @@
 "use client";
 
+import * as Tooltip from "@radix-ui/react-tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SWRConfig } from "swr";
 import { useState, type ReactNode } from "react";
 
 /**
- * Global providers for React Query and SWR
+ * Global providers for React Query, SWR, and Radix (e.g. Tooltip)
  * SWR config optimizes request deduplication and caching
  */
 export function Providers({ children }: { children: ReactNode }) {
@@ -23,6 +24,7 @@ export function Providers({ children }: { children: ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <Tooltip.Provider delayDuration={400} skipDelayDuration={0}>
       <SWRConfig
         value={{
           // Dedupe requests within 2 seconds
@@ -41,6 +43,7 @@ export function Providers({ children }: { children: ReactNode }) {
       >
         {children}
       </SWRConfig>
+      </Tooltip.Provider>
     </QueryClientProvider>
   );
 }

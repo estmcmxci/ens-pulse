@@ -244,10 +244,10 @@ export const DUNE_QUERY_CONFIGS: DuneQueryConfig[] = [
     key: "STEAKHOUSE_TOTAL_ASSETS",
     id: DUNE_QUERIES.STEAKHOUSE_TOTAL_ASSETS,
     name: "Total Assets (excl. ENS)",
-    description: "Total treasury assets excluding ENS tokens",
+    description: "Total treasury assets excluding ENS tokens — replaced by DefiLlama /treasuries API (free, no credits)",
     category: "treasury",
     refreshInterval: 24,
-    isActive: true,
+    isActive: false, // Replaced by DefiLlama — was burning Dune credits
   },
   {
     key: "STEAKHOUSE_DAILY_REVENUES",

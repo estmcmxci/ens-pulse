@@ -23,7 +23,7 @@ export function DelegatesWidget() {
   const totalDelegates = data?.totalDelegates ?? 0;
 
   return (
-    <Widget>
+    <Widget tooltip="Top delegates by voting power and delegator count.">
       <WidgetHeader>
         <WidgetTitle>TOP DELEGATES</WidgetTitle>
         <div className="flex items-center gap-2">

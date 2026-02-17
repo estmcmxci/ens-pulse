@@ -19,7 +19,7 @@ export function SocialFeedWidget() {
   const { data, isLoading, error } = useSocialFeed(10); // 10 most recent tweets
 
   return (
-    <Widget>
+    <Widget tooltip="Recent ENS-related social and community updates.">
       <WidgetHeader>
         <WidgetTitle>SOCIAL</WidgetTitle>
         <div className="flex items-center gap-2">

@@ -93,7 +93,7 @@ export function AttackAnalysisWidget() {
   const riskAssessment = getRiskLabel(incentiveMultipleWorstCase);
 
   return (
-    <Widget>
+    <Widget tooltip="Cost to attack vs treasury size and risk assessment.">
       <WidgetHeader>
         <WidgetTitle>ATTACK PROFITABILITY ANALYSIS</WidgetTitle>
         <div

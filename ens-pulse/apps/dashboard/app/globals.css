@@ -1384,6 +1384,9 @@ body {
     left: 50%;
     top: 14%;
     transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .hero-overlay__icon {

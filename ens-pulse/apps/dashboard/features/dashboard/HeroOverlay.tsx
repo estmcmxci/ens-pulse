@@ -50,6 +50,9 @@ export default function HeroOverlay() {
 
       try {
         sessionStorage.setItem("ens-pulse-hero-seen", "1");
+        if (typeof window !== "undefined") {
+          window.dispatchEvent(new CustomEvent("ens-pulse-hero-dismissed"));
+        }
       } catch {
         /* noop */
       }

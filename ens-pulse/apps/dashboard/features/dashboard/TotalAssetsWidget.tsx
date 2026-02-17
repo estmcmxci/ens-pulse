@@ -15,7 +15,7 @@ import { formatValue } from "@/shared/lib/formatters";
    Breakdown: 3-segment bar showing each layer
      - Wallet balances (excl. ENS): on-chain ETH + USDC
      - ENS holdings: on-chain ENS × CoinGecko price
-     - Endowment DeFi: Steakhouse total - on-chain non-ENS balances
+     - Endowment DeFi: DefiLlama treasury total - on-chain non-ENS balances
    ═══════════════════════════════════════════════════════════════════════════ */
 
 export function TotalAssetsWidget() {
@@ -44,12 +44,12 @@ export function TotalAssetsWidget() {
   const ensValueUsd = onChainEnsRaw * ensPrice;
   const walletBalancesExclEns = onChainEthUsd + onChainUsdcUsd;
 
-  // Steakhouse total (excl. ENS, includes DeFi positions)
-  const steakhouseTotal = financials?.totalAssets?.value ?? null;
+  // DefiLlama treasury total (excl. ENS tokens, includes DeFi positions)
+  const treasuryTotal = financials?.totalAssets?.value ?? null;
 
-  // Endowment DeFi = Steakhouse total - on-chain non-ENS wallet balances
-  const endowmentDefi = steakhouseTotal !== null
-    ? Math.max(0, steakhouseTotal - walletBalancesExclEns)
+  // Endowment DeFi = DefiLlama total - on-chain non-ENS wallet balances
+  const endowmentDefi = treasuryTotal !== null
+    ? Math.max(0, treasuryTotal - walletBalancesExclEns)
     : null;
 
   // Total AUM
@@ -63,7 +63,10 @@ export function TotalAssetsWidget() {
   const defiPct = totalAum > 0 && endowmentDefi !== null ? (endowmentDefi / totalAum) * 100 : 0;
 
   return (
-    <Widget className="hero-card card-depth-hero">
+    <Widget
+      className="hero-card card-depth-hero"
+      tooltip="Treasury AUM and allocation across wallets, DAO, and grants."
+    >
       <WidgetContent padding="md">
         {isLoading ? (
           <div className="space-y-4 py-2">
@@ -86,7 +89,7 @@ export function TotalAssetsWidget() {
               <img
                 src="/dao-icon.svg"
                 alt="DAO"
-                className="w-9 h-9 rounded-full"
+                className="w-9 h-9 shrink-0 rounded-full object-cover"
               />
               <span className="text-sm font-medium text-[var(--color-text-secondary)]">
                 Treasury AUM
@@ -173,7 +176,7 @@ export function TotalAssetsWidget() {
                 {treasury?.multisigs?.length ?? 0} wallets
               </div>
               <div className="text-[10px] text-[var(--color-ens-blue)]/60 uppercase tracking-wide">
-                {steakhouseTotal !== null ? "via Steakhouse + RPC" : "on-chain"}
+                {treasuryTotal !== null ? "via DefiLlama + RPC" : "on-chain"}
               </div>
             </div>
           </>

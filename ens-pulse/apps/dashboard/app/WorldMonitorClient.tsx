@@ -1,6 +1,8 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { Mail } from "lucide-react";
+import { useEffect, useState } from "react";
 import {
   Widget,
   WidgetHeader,
@@ -10,11 +12,18 @@ import {
 import { Badge } from "@/shared/components/ui/Badge";
 import { useMarketData } from "@/shared/hooks/use-api-data";
 import {
+  LatestInEnsDaoModal,
+  getBulletsSeen,
+} from "@/features/dashboard/LatestInEnsDaoModal";
+import {
   PriceWidgetSkeleton,
   TableWidgetSkeleton,
   AnalysisWidgetSkeleton,
   WidgetSkeleton,
 } from "@/features/dashboard/WidgetSkeleton";
+
+const NEWSLETTER_URL = "https://paragraph.xyz/@ensdao";
+const HERO_SEEN_KEY = "ens-pulse-hero-seen";
 
 /* ═══════════════════════════════════════════════════════════════════════════
    DYNAMIC IMPORTS — Code splitting for optimized loading
@@ -92,8 +101,34 @@ const FinancialsGrid = dynamic(
    ═══════════════════════════════════════════════════════════════════════════ */
 
 export default function WorldMonitorClient() {
+  const [showLatestModal, setShowLatestModal] = useState(false);
+
+  useEffect(() => {
+    const openIfNeeded = () => {
+      try {
+        const heroSeen = sessionStorage.getItem(HERO_SEEN_KEY) === "1";
+        if (heroSeen && !getBulletsSeen()) setShowLatestModal(true);
+      } catch {
+        /* noop */
+      }
+    };
+
+    openIfNeeded();
+
+    const handleHeroDismissed = () => {
+      if (!getBulletsSeen()) setShowLatestModal(true);
+    };
+
+    window.addEventListener("ens-pulse-hero-dismissed", handleHeroDismissed);
+    return () => window.removeEventListener("ens-pulse-hero-dismissed", handleHeroDismissed);
+  }, []);
+
   return (
     <>
+      <LatestInEnsDaoModal
+        open={showLatestModal}
+        onOpenChange={setShowLatestModal}
+      />
       <div className="space-y-4 pb-10">
         {/* ════════════════════════════════════════════════════════════════════
             HEADER — Logo left, prices right
@@ -135,7 +170,10 @@ export default function WorldMonitorClient() {
             ROW 4: PROTOCOL METRICS
             ════════════════════════════════════════════════════════════════════ */}
         <div className="widget-row-deferred animate-in stagger-5">
-          <Widget className="widget-contained">
+          <Widget
+            className="widget-contained"
+            tooltip="30-day protocol stats: names created, revenue, and financials."
+          >
             <WidgetHeader>
               <WidgetTitle>PROTOCOL METRICS</WidgetTitle>
               <span className="label">
@@ -205,6 +243,16 @@ function Header() {
       </div>
 
       <div className="flex items-center gap-5 sm:gap-6">
+        <a
+          href={NEWSLETTER_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="p-1.5 rounded text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-overlay)] transition-colors"
+          title="ENS DAO newsletter (Paragraph)"
+          aria-label="Open ENS DAO newsletter"
+        >
+          <Mail className="h-4 w-4" />
+        </a>
         <div className="flex items-center gap-1.5">
           <span className="label">ETH</span>
           <span className="data-value text-sm text-[var(--color-text-primary)]">${ethPrice.toLocaleString(undefined, { maximumFractionDigits: 0 })}</span>

@@ -29,7 +29,10 @@ export function PriceWidget({ symbol }: PriceWidgetProps) {
   const icon = priceData?.image;
 
   return (
-    <Widget className="hero-card card-depth-hero">
+    <Widget
+      className="hero-card card-depth-hero"
+      tooltip={symbol === "ETH" ? "Live ETH price, 24h volume, and 7d change." : "Live ENS price, 24h volume, and 7d change."}
+    >
       <WidgetContent padding="md">
         {isLoading ? (
           <div className="space-y-4 py-2">
@@ -49,7 +52,7 @@ export function PriceWidget({ symbol }: PriceWidgetProps) {
             {/* Token Header: Icon + Name */}
             <div className="flex items-center gap-3 mb-4">
               {icon ? (
-                <img src={icon} alt={symbol} className="w-9 h-9 rounded-full ring-1 ring-[var(--color-border-default)]" />
+                <img src={icon} alt={symbol} className="w-9 h-9 shrink-0 rounded-full object-cover" />
               ) : (
                 <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[var(--color-ens-blue)] to-[var(--color-ens-purple)] flex items-center justify-center text-sm font-bold text-white shadow-[0_0_12px_rgba(82,152,255,0.3)]">
                   {symbol.charAt(0)}

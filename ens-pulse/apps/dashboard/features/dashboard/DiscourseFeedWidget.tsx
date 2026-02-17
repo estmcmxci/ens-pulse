@@ -19,7 +19,7 @@ export function DiscourseFeedWidget() {
   const { data, isLoading, error } = useDiscourseFeed(10, 7); // Last 7 days of activity
 
   return (
-    <Widget>
+    <Widget tooltip="Latest posts from the ENS Discourse forum.">
       <WidgetHeader>
         <WidgetTitle>FORUM</WidgetTitle>
         <div className="flex items-center gap-2">

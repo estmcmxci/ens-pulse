@@ -20,7 +20,7 @@ export function MeetingsWidget() {
   const meetings = data?.meetings || [];
 
   return (
-    <Widget>
+    <Widget tooltip="Upcoming governance and community meetings.">
       <WidgetHeader>
         <WidgetTitle>CALENDAR</WidgetTitle>
         <div className="flex items-center gap-2">

@@ -46,7 +46,7 @@ export function TreasuryWidget() {
   const grandTotal = walletData.reduce((sum, w) => sum + w.total, 0);
 
   return (
-    <Widget>
+    <Widget tooltip="Treasury balance and recent large transactions.">
       <WidgetHeader>
         <WidgetTitle>TREASURY</WidgetTitle>
         <span className="text-lg font-bold text-[var(--color-text-primary)] tabular-nums">

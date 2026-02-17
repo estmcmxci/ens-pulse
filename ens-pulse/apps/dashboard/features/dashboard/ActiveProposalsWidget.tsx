@@ -50,7 +50,7 @@ export function ActiveProposalsWidget() {
   }, [proposals]);
 
   return (
-    <Widget>
+    <Widget tooltip="Active ENS governance proposals and voting status.">
       <WidgetHeader>
         <WidgetTitle>PROPOSALS</WidgetTitle>
         <div className="flex items-center gap-2">

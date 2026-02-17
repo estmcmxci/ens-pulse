@@ -1,24 +1,7 @@
 import { NextResponse } from "next/server";
 import { getLatestQueryResults } from "@/shared/lib/dune/client";
 import { DUNE_QUERIES } from "@/shared/config/dune-queries";
-
-// Helpers for flexible Steakhouse row parsing
-function getDateFromRow(row: Record<string, unknown>): Date {
-  for (const key of ["day", "date", "period", "time"]) {
-    if (row[key]) return new Date(String(row[key]));
-  }
-  return new Date(0);
-}
-
-function getValueFromRow(row: Record<string, unknown>, ...keys: string[]): number | null {
-  for (const key of keys) {
-    if (row[key] !== undefined && row[key] !== null) {
-      const v = Number(row[key]);
-      if (!isNaN(v)) return v;
-    }
-  }
-  return null;
-}
+import { fetchEnsTreasury } from "@/shared/lib/defillama/client";
 
 export const dynamic = "force-dynamic"; // Always fetch fresh — avoid baking stale/failed data at build time
 
@@ -62,29 +45,29 @@ const nullMetric: MetricWithDelta = { value: null, previousValue: null, delta: n
 
 export async function GET() {
   try {
-    // Fetch consolidated revenue stats + Steakhouse total assets in parallel
-    const [result, totalAssetsResult] = await Promise.all([
+    // Fetch consolidated revenue stats (Dune) + treasury total (DefiLlama) in parallel
+    const [result, treasury] = await Promise.all([
       getLatestQueryResults(DUNE_QUERIES.PULSE_REVENUE_STATS).catch(() => null),
-      getLatestQueryResults(DUNE_QUERIES.STEAKHOUSE_TOTAL_ASSETS).catch(() => null),
+      fetchEnsTreasury().catch(() => null),
     ]);
 
-    // Parse Steakhouse total assets (time series rows sorted by date)
+    // Parse DefiLlama treasury data
     let totalAssets: MetricWithDelta = nullMetric;
-    if (totalAssetsResult?.rows?.length) {
-      const rows = [...totalAssetsResult.rows] as Array<Record<string, unknown>>;
-      rows.sort((a, b) => getDateFromRow(b).getTime() - getDateFromRow(a).getTime());
+    let endowment: FinancialsResponse["endowment"] = null;
 
-      const latest = getValueFromRow(rows[0], "total_assets", "total", "balance", "usd_value", "value");
+    if (treasury) {
+      // Derive previous-day value from the 1-day percent change
+      const prevValue = treasury.change1d !== null
+        ? treasury.tvl / (1 + treasury.change1d / 100)
+        : null;
+      totalAssets = makeMetric(treasury.tvl, prevValue);
 
-      // Find value from ~30 days ago for delta
-      const thirtyDaysAgo = new Date();
-      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-      const prevRow = rows.find(r => getDateFromRow(r) <= thirtyDaysAgo);
-      const prevValue = prevRow ? getValueFromRow(prevRow, "total_assets", "total", "balance", "usd_value", "value") : null;
-
-      if (latest !== null) {
-        totalAssets = makeMetric(latest, prevValue);
-      }
+      endowment = {
+        eth: treasury.tokenBreakdowns.majors,
+        usdc: treasury.tokenBreakdowns.stablecoins,
+        other: treasury.tokenBreakdowns.others,
+        total: treasury.tvl,
+      };
     }
 
     if (!result?.rows?.[0]) {
@@ -97,7 +80,7 @@ export async function GET() {
           totalAssets,
           ensPrice: nullMetric,
           dailyRegistrations: nullMetric,
-          endowment: null,
+          endowment,
           lastUpdated: new Date().toISOString(),
           dataSource: "ens_pulse_custom",
         } satisfies FinancialsResponse,
@@ -120,7 +103,7 @@ export async function GET() {
       totalAssets,
       ensPrice: nullMetric,      // Now handled by CoinGecko via useMarketData
       dailyRegistrations: makeMetric(dailyRegs, prevDailyRegs),
-      endowment: null,           // Not in consolidated query
+      endowment,
       lastUpdated: new Date().toISOString(),
       dataSource: "ens_pulse_custom",
     };

@@ -184,7 +184,7 @@ export function FinancialsGrid() {
 
 export function ProtocolMetricsWidget() {
   return (
-    <Widget>
+    <Widget tooltip="30-day protocol stats: names created, revenue, and financials.">
       <WidgetHeader>
         <WidgetTitle>PROTOCOL METRICS</WidgetTitle>
       </WidgetHeader>

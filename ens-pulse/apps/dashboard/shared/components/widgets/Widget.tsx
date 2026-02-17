@@ -1,3 +1,4 @@
+import * as Tooltip from "@radix-ui/react-tooltip";
 import { cn } from "@/shared/lib/utils";
 import { type ReactNode, forwardRef, type HTMLAttributes } from "react";
 
@@ -12,6 +13,8 @@ interface WidgetProps extends HTMLAttributes<HTMLDivElement> {
   colSpan?: 1 | 2 | 3 | 4;
   /** Row span (1-3) */
   rowSpan?: 1 | 2 | 3;
+  /** Optional tooltip shown on hover (whole card is the trigger) */
+  tooltip?: string;
 }
 
 const colSpanStyles = {
@@ -27,24 +30,50 @@ const rowSpanStyles = {
   3: "row-span-3",
 };
 
+const widgetClassName = (
+  className: string | undefined,
+  colSpan: 1 | 2 | 3 | 4,
+  rowSpan: 1 | 2 | 3
+) =>
+  cn(
+    "bg-[var(--color-bg-raised)] border border-[var(--color-border-default)]",
+    "rounded-lg overflow-hidden flex flex-col",
+    "card-depth",
+    colSpanStyles[colSpan],
+    rowSpanStyles[rowSpan],
+    className
+  );
+
 export const Widget = forwardRef<HTMLDivElement, WidgetProps>(
-  ({ children, className, colSpan = 1, rowSpan = 1, ...props }, ref) => {
-    return (
+  ({ children, className, colSpan = 1, rowSpan = 1, tooltip, ...props }, ref) => {
+    const root = (
       <div
         ref={ref}
-        className={cn(
-          "bg-[var(--color-bg-raised)] border border-[var(--color-border-default)]",
-          "rounded-lg overflow-hidden flex flex-col",
-          "card-depth",
-          colSpanStyles[colSpan],
-          rowSpanStyles[rowSpan],
-          className
-        )}
+        className={widgetClassName(className, colSpan, rowSpan)}
         {...props}
       >
         {children}
       </div>
     );
+
+    if (tooltip?.trim()) {
+      return (
+        <Tooltip.Root>
+          <Tooltip.Trigger asChild>{root}</Tooltip.Trigger>
+          <Tooltip.Portal>
+            <Tooltip.Content
+              side="top"
+              sideOffset={8}
+              className="z-[100] max-w-[280px] rounded-lg border border-[var(--color-border-default)] bg-[var(--color-bg-raised)] px-3 py-2 text-sm text-[var(--color-text-secondary)] shadow-lg"
+            >
+              {tooltip.trim()}
+            </Tooltip.Content>
+          </Tooltip.Portal>
+        </Tooltip.Root>
+      );
+    }
+
+    return root;
   }
 );
 Widget.displayName = "Widget";
