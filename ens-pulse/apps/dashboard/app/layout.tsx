@@ -15,11 +15,13 @@ export const metadata: Metadata = {
     siteName: "ENS Pulse",
     type: "website",
     locale: "en_US",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "ENS Pulse — DAO Monitor" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "ENS Pulse | DAO Monitor",
     description: "Real-time context for ENS governance decisions. Never vote on a proposal without understanding the world it exists in.",
+    images: ["/og-image.png"],
   },
 };
 
