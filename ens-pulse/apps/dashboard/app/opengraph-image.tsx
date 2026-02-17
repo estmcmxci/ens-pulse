@@ -1,23 +1,18 @@
 import { ImageResponse } from "next/og";
-
-export const runtime = "edge";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 
 export const alt = "ENS Pulse — DAO Monitor";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default async function Image() {
-  const fontMedium = fetch(new URL("../public/fonts/ABCMonumentGrotesk-Medium.otf", import.meta.url)).then((res) =>
-    res.arrayBuffer(),
-  );
-  const fontThin = fetch(new URL("../public/fonts/ABCMonumentGrotesk-Thin.otf", import.meta.url)).then((res) =>
-    res.arrayBuffer(),
-  );
-  const fontBold = fetch(new URL("../public/fonts/ABCMonumentGrotesk-Bold.otf", import.meta.url)).then((res) =>
-    res.arrayBuffer(),
-  );
-
-  const [mediumData, thinData, boldData] = await Promise.all([fontMedium, fontThin, fontBold]);
+  const fontsDir = join(process.cwd(), "public", "fonts");
+  const [mediumData, thinData, boldData] = await Promise.all([
+    readFile(join(fontsDir, "ABCMonumentGrotesk-Medium.otf")),
+    readFile(join(fontsDir, "ABCMonumentGrotesk-Thin.otf")),
+    readFile(join(fontsDir, "ABCMonumentGrotesk-Bold.otf")),
+  ]);
 
   return new ImageResponse(
     (
