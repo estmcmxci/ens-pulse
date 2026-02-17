@@ -499,8 +499,8 @@ body {
 
 .hero-card {
   position: relative;
-  border-color: transparent;
-  background: linear-gradient(135deg, #0e0e18, #0c0c14);
+  border-color: transparent !important;
+  background: linear-gradient(135deg, #0e0e18, #0c0c14) !important;
 }
 
 .hero-card::before {
