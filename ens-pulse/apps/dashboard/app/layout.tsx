@@ -4,10 +4,23 @@ import { Providers } from "./providers";
 import HeroOverlay from "@/features/dashboard/HeroOverlay";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://ens-pulse.vercel.app"),
   title: "ENS Pulse | DAO Monitor",
   description:
     "Never vote on a proposal without understanding the world it exists in. Real-time context for ENS governance decisions.",
   keywords: ["ENS", "Ethereum Name Service", "governance", "DAO", "world monitor", "context"],
+  openGraph: {
+    title: "ENS Pulse | DAO Monitor",
+    description: "Real-time context for ENS governance decisions. Never vote on a proposal without understanding the world it exists in.",
+    siteName: "ENS Pulse",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ENS Pulse | DAO Monitor",
+    description: "Real-time context for ENS governance decisions. Never vote on a proposal without understanding the world it exists in.",
+  },
 };
 
 export const viewport: Viewport = {
